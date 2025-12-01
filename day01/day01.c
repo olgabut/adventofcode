@@ -45,14 +45,16 @@ int main()
 	int		count_point_to_zero;
 	int		pass_zero;
 	int		cur_point;
-	int		prev_point;
 	int		num;
+	int i;
 
 	fd = open("rotations.txt", O_RDWR);
+	// fd = open("test.txt", O_RDWR);
 	if (fd == -1)
 		return (1);
 	cur_point = 50;
 	count_point_to_zero = 0;
+	i = 0;
 	while (str != NULL)
 	{
 		str = get_next_line(fd);
@@ -73,26 +75,27 @@ int main()
 		}
 		else
 		{
-			prev_point = cur_point;
 			printf("cur_point = %d\nnum = -%d\n", cur_point, num);
-			if (cur_point - num < 0)
-			{
-				pass_zero = 1 - ((int)(cur_point - num) / 100);
-				cur_point = cur_point - num + (pass_zero * 100);
-			}
-			else
-				cur_point = cur_point - num;
-			if (prev_point == 0)
-				pass_zero--;
 			if (cur_point == 0)
-				pass_zero++;
+				pass_zero = num / 100;
+			else
+			{
+				if (num < cur_point)
+					pass_zero = 0;
+				else
+					pass_zero = (int)((num - cur_point) / 100) + 1;
+			}
+			cur_point = cur_point - (int)(num % 100);
+			if (cur_point < 0)
+				cur_point += 100;
 			count_point_to_zero += pass_zero;
 			printf("pass_zero = %d\n", pass_zero);
 			printf("%d\n", cur_point);
 		}
 		// if (cur_point % 100 == 0)
 		// 	count_point_to_zero++;
-
+		printf("count_point_to_zero = %d\n", count_point_to_zero);
+		i++;
 	}
 	printf("%d\n", count_point_to_zero);
 	close(fd);
@@ -110,4 +113,6 @@ int main()
 / That's the right answer! You are one gold star closer to decorating the North Pole.
 */
 /* part 02
+/ The result = 6027
+/ That's the right answer! You are one gold star closer to decorating the North Pole.
 */
