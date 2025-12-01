@@ -15,70 +15,97 @@ void no_next_line_char(char **origin)
 	origin = &str;
 }
 
-void init_pointers(int *curpoint, int *countpoint)
-{
-	int i;
-	i = 0;
-	while (i < 100)
-	{
-		curpoint[i] = i;
-		countpoint[i] = 0;
-		i++;
-	}
-}
+// void init_pointers(int *curpoint, int *countpoint)
+// {
+// 	int i;
+// 	i = 0;
+// 	while (i < 100)
+// 	{
+// 		curpoint[i] = i;
+// 		countpoint[i] = 0;
+// 		i++;
+// 	}
+// }
 
-void print_count(int *curpoint)
-{
-	int i;
-	i = 0;
-	while (i < 100)
-	{
-		printf("%d - %d\n", i, curpoint[i]);
-		i++;
-	}
-}
+// void print_count(int *curpoint)
+// {
+// 	int i;
+// 	i = 0;
+// 	while (i < 100)
+// 	{
+// 		printf("%d - %d\n", i, curpoint[i]);
+// 		i++;
+// 	}
+// }
 
 int main()
 {
 	char	*str;
 	int		fd;
-	int		count_point_to_zero[100];
-	int		cur_point[100];
+	int		count_point_to_zero;
+	int		pass_zero;
+	int		cur_point;
+	int		prev_point;
 	int		num;
-	int		i;
 
 	fd = open("rotations.txt", O_RDWR);
 	if (fd == -1)
 		return (1);
-	init_pointers(cur_point, count_point_to_zero);
-	print_count(cur_point);
+	cur_point = 50;
+	count_point_to_zero = 0;
 	while (str != NULL)
 	{
 		str = get_next_line(fd);
 		if (!str)
 			break;
 		no_next_line_char(&str);
+		printf("----------\n%s\n", str);
 		num = atoi(str + 1);
-		i = 0;
-		while (i < 100)
+		pass_zero = 0;
+		if (str[0] == 'R')
 		{
-			if (str[0] == 'R')
-				cur_point[i] += num;
-			else
-				cur_point[i] -= num;
-			if (cur_point[i] % 100 == 0)
-				count_point_to_zero[i]++;
-			i++;
+			printf("cur_point = %d\nnum = %d\n", cur_point, num);
+			pass_zero = (int)(cur_point + num) / 100;
+			printf("pass_zero = %d\n", pass_zero);
+			count_point_to_zero += pass_zero;
+			cur_point = cur_point + num - (pass_zero * 100);
+			printf("%d\n", cur_point);
 		}
-		
+		else
+		{
+			prev_point = cur_point;
+			printf("cur_point = %d\nnum = -%d\n", cur_point, num);
+			if (cur_point - num < 0)
+			{
+				pass_zero = 1 - ((int)(cur_point - num) / 100);
+				cur_point = cur_point - num + (pass_zero * 100);
+			}
+			else
+				cur_point = cur_point - num;
+			if (prev_point == 0)
+				pass_zero--;
+			if (cur_point == 0)
+				pass_zero++;
+			count_point_to_zero += pass_zero;
+			printf("pass_zero = %d\n", pass_zero);
+			printf("%d\n", cur_point);
+		}
+		// if (cur_point % 100 == 0)
+		// 	count_point_to_zero++;
+
 	}
-	print_count(count_point_to_zero);
+	printf("%d\n", count_point_to_zero);
 	close(fd);
+
+	// rest = 0;
+	// cur_point = 50;
+	// num = 150;
+	// printf("%d\n", (cur_point+num) / 100);
 	return (0);
 }
 
 /* part 01
-/ make && ./day01 | sort -n | uniq
+/ make && ./solution | sort -n | uniq
 / The best result = 1040
 / That's the right answer! You are one gold star closer to decorating the North Pole.
 */

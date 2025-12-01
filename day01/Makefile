@@ -1,4 +1,4 @@
-NAME = day01
+NAME = solution
 CC = cc
 CFLAGS = #-Wall -Wextra -Werror -g -O0
 ADD_DIR = get_next_line
