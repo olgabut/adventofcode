@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = #-Wall -Wextra -Werror -g -O0
 ADD_DIR = ../get_next_line
 
-SRC_FILES = day01.c \
+SRC_FILES = day03.c \
 	$(ADD_DIR)/get_next_line_utils.c \
 	$(ADD_DIR)/get_next_line.c \
 

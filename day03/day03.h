@@ -1,6 +1,5 @@
-
-#ifndef DAY01_H
-# define DAY01_H
+#ifndef DAY03_H
+# define DAY03_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10

@@ -48,7 +48,7 @@ int main()
 	int		num;
 	int i;
 
-	fd = open("rotations.txt", O_RDWR);
+	fd = open("input.txt", O_RDWR);
 	// fd = open("test.txt", O_RDWR);
 	if (fd == -1)
 		return (1);
